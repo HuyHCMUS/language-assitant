@@ -31,8 +31,8 @@ export default function Header() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Link href="/chatbot" className={`nav-link ${pathname === '/chatbot' ? 'active' : ''}`}>
-              Chatbot
+            <Link href="/chat" className={`nav-link ${pathname === '/chat' ? 'active' : ''}`}>
+              Chat AI
             </Link>
             <Link href="/vocabulary" className={`nav-link ${pathname === '/vocabulary' ? 'active' : ''}`}>
               Từ vựng
@@ -59,7 +59,7 @@ export default function Header() {
                   title={
                     <div className="d-inline-block position-relative" style={{ width: '35px', height: '35px' }}>
                       <Image
-                        src="/images/avatars/default-avatar.png"
+                        src="/kanna.jpg"
                         alt="User Avatar"
                         fill
                         className="rounded-circle object-fit-cover"

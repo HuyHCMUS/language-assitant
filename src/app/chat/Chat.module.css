@@ -1,0 +1,20 @@
+/* styles/Chat.module.css */
+.chatContainer {
+    height: 100vh;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .chatWrapper {
+    width: 100%;
+    max-width: 800px;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  

@@ -1,68 +1,70 @@
-import React, { useState } from 'react'
+// components/chat/ChatInput.tsx
+import { useState, useRef } from 'react';
+import { Form, Button, InputGroup } from 'react-bootstrap';
+import { Mic, Send } from 'react-bootstrap-icons';
+import styles from './ChatInput.module.css';
 
 interface ChatInputProps {
-  onSendMessage: (text: string) => void
-  isVoiceMode: boolean
-  onToggleVoiceMode: () => void
+  onSendMessage: (message: string) => void;
 }
 
-const ChatInput: React.FC<ChatInputProps> = ({ 
-  onSendMessage, 
-  isVoiceMode, 
-  onToggleVoiceMode 
-}) => {
-  const [message, setMessage] = useState('')
+export default function ChatInput({ onSendMessage }: ChatInputProps) {
+  const [message, setMessage] = useState('');
+  const [isRecording, setIsRecording] = useState(false);
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (message.trim()) {
-      onSendMessage(message)
-      setMessage('')
+      onSendMessage(message);
+      setMessage('');
     }
-  }
+  };
+
+  const startRecording = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      mediaRecorderRef.current = new MediaRecorder(stream);
+      
+      mediaRecorderRef.current.ondataavailable = async (event) => {
+        // Here you would typically send the audio to a speech-to-text service
+        // For now, we'll just simulate it
+        setMessage('This is a simulated voice message');
+      };
+
+      mediaRecorderRef.current.start();
+      setIsRecording(true);
+    } catch (error) {
+      console.error('Error accessing microphone:', error);
+    }
+  };
+
+  const stopRecording = () => {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop();
+      setIsRecording(false);
+    }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-2">
-      <button
-        type="button"
-        onClick={onToggleVoiceMode}
-        className="p-2 rounded-full text-gray-500 hover:text-primary-600"
-      >
-        {isVoiceMode ? (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-              d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" 
-            />
-          </svg>
-        ) : (
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-              d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" 
-            />
-          </svg>
-        )}
-      </button>
-
-      <input
-        type="text"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        placeholder="Nhập tin nhắn..."
-        className="flex-1 p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500"
-      />
-
-      <button
-        type="submit"
-        className="bg-primary-600 text-white p-2 rounded-lg hover:bg-primary-700"
-      >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-            d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" 
-          />
-        </svg>
-      </button>
-    </form>
-  )
+    <Form onSubmit={handleSubmit} className={styles.chatInputForm}>
+      <InputGroup>
+        <Form.Control
+          type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          placeholder="Type your message..."
+        />
+        <Button
+          variant="outline-secondary"
+          onClick={isRecording ? stopRecording : startRecording}
+        >
+          <Mic color={isRecording ? 'red' : 'currentColor'} />
+        </Button>
+        <Button type="submit" variant="primary">
+          <Send />
+        </Button>
+      </InputGroup>
+    </Form>
+  );
 }
-
-export default ChatInput 

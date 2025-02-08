@@ -48,7 +48,7 @@ const Hero: React.FC = () => {
           <Col lg={6} className="text-center">
             <div className="position-relative" style={{ height: '400px' }}>
               <Image
-                src="/images/hero-illustration.svg"
+                src="/ai_22_b.jpg"
                 alt="English Learning Illustration"
                 fill
                 style={{ objectFit: 'contain' }}

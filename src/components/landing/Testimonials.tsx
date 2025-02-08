@@ -20,7 +20,7 @@ const testimonials: Testimonial[] = [
     author: {
       name: 'Nguyễn Văn A',
       role: 'Sinh viên Đại học',
-      avatar: '/images/avatars/avatar-1.jpg'
+      avatar: '/vmpovg.png'
     }
   },
   {
@@ -29,7 +29,7 @@ const testimonials: Testimonial[] = [
     author: {
       name: 'Trần Thị B',
       role: 'Chuyên viên Marketing',
-      avatar: '/images/avatars/avatar-2.jpg'
+      avatar: '/thumb-350-375590.webp'
     }
   },
   {
@@ -38,7 +38,7 @@ const testimonials: Testimonial[] = [
     author: {
       name: 'Lê Văn C',
       role: 'Freelancer',
-      avatar: '/images/avatars/avatar-3.jpg'
+      avatar: '/kanna.jpg'
     }
   }
 ]

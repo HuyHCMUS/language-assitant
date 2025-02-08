@@ -24,7 +24,7 @@ export default function AboutPage() {
           <Col lg={6} className="mb-4 mb-lg-0">
             <div className="position-relative" style={{ height: '400px' }}>
               <Image
-                src="/images/about-mission.svg"
+                src="/ai_22_b.jpg"
                 alt="Our Mission"
                 fill
                 style={{ objectFit: 'contain' }}

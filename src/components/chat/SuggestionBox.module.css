@@ -1,0 +1,25 @@
+/* components/chat/SuggestionBox.module.css */
+.suggestionBox {
+    padding: 0.5rem 1rem;
+    border-top: 1px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .suggestionText {
+    flex: 1;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .nextButton {
+    color: #6c757d;
+    text-decoration: none;
+  }
+  
+  .nextButton:hover {
+    color: #495057;
+  }

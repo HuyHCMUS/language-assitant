@@ -34,7 +34,10 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onUpdate }) => {
         <div className="text-center mb-4">
           <div className="position-relative mx-auto" style={{ width: '120px', height: '120px' }}>
             <Image
-              src={profile.avatar}
+              src="/kanna.jpg"
+              //src={profile.avatar}
+
+
               alt="Profile"
               fill
               className="rounded-circle object-fit-cover"

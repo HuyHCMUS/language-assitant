@@ -1,0 +1,20 @@
+/* components/chat/ChatInput.module.css */
+.chatInputForm {
+    padding: 1rem;
+    border-top: 1px solid #dee2e6;
+  }
+  
+  .chatInputForm :global(.input-group) {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+  .chatInputForm :global(.form-control) {
+    border-right: none;
+  }
+  
+  .chatInputForm :global(.btn) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+  }

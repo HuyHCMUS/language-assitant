@@ -1,48 +1,31 @@
-import React, { useState } from 'react'
-import ChatMessage from './ChatMessage'
-import ChatInput from './ChatInput'
+// components/chat/ChatWindow.tsx
+import { forwardRef } from 'react';
+import { Message } from '@/types/chat';
+import ChatMessage from './ChatMessage';
+import styles from './ChatWindow.module.css';
 
-interface Message {
-  id: string
-  text: string
-  sender: 'user' | 'bot'
-  timestamp: Date
+interface ChatWindowProps {
+  messages: Message[];
+  isBotTyping: boolean;
 }
 
-const ChatWindow: React.FC = () => {
-  const [messages, setMessages] = useState<Message[]>([])
-  const [isVoiceMode, setIsVoiceMode] = useState(false)
-
-  const handleSendMessage = (text: string) => {
-    const newMessage: Message = {
-      id: Date.now().toString(),
-      text,
-      sender: 'user',
-      timestamp: new Date()
-    }
-    setMessages([...messages, newMessage])
-    // TODO: Implement bot response logic
-  }
-
+const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isBotTyping }) => {
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)] max-w-4xl mx-auto">
-      {/* Chat messages area */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
-        {messages.map((message) => (
-          <ChatMessage key={message.id} message={message} />
-        ))}
-      </div>
+    <div className={styles.chatWindow}>
+      {messages.map((message) => (
+        <ChatMessage key={message.id} message={message} />
+      ))}
 
-      {/* Input area */}
-      <div className="border-t p-4">
-        <ChatInput 
-          onSendMessage={handleSendMessage}
-          isVoiceMode={isVoiceMode}
-          onToggleVoiceMode={() => setIsVoiceMode(!isVoiceMode)}
-        />
-      </div>
+      {isBotTyping && (
+        <div className={styles.typingIndicator}>
+          <span>.</span>
+          <span>.</span>
+          <span>.</span>
+        </div>
+      )}
     </div>
-  )
-}
+  );
+};
 
-export default ChatWindow 
+export default ChatWindow;
+

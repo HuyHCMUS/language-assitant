@@ -20,29 +20,30 @@ const sampleVocabularyLists: VocabularyList[] = [
     totalWords: 50,
     category: "Business",
     progress: 75,
-    image: "/business-vocab.jpg"
+    image: "/english.jpg"
   },
   {
     id: 2,
     title: "IELTS Academic Writing",
-    description: "Key vocabulary for IELTS academic writing tasks",
+    description: "Key vocabulary for IELTS academic writing tasks Phần 1",
     createdAt: "2024-02-07",
     updatedAt: "2024-02-07",
     totalWords: 100,
     category: "Academic",
     progress: 30,
-    image: "/academic-vocab.jpg"
+    image: "/ielts.jpg"
   },
   {
     id: 3,
     title: "IELTS Academicdfdf Writing",
-    description: "Key vocabulary for IELTS academic writing tasks",
+    description: "Key vocabulary for IELTS academic writing tasks. Phần 2",
     createdAt: "2024-02-07",
     updatedAt: "2024-02-07",
     totalWords: 100,
     category: "Acadvvemic",
     progress: 30,
-    image: "/academic-vocab.jpg"
+    image: "/ielts.jpg"
+
   },
   // Thêm các list khác...
 ];
