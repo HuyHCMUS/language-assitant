@@ -51,6 +51,7 @@ const Features = () => {
             </div>
 
             <div className="col-12 col-md-6">
+            <Link href="/practice" className="text-decoration-none">  
               <Card className="h-100 border-0 shadow-sm">
                 <Card.Body className="p-4">
                   <div className="text-primary opacity-50 mb-3 d-flex align-items-center">
@@ -62,7 +63,9 @@ const Features = () => {
                   </Card.Text>
                 </Card.Body>
               </Card>
+            </Link>
             </div>
+
 
             <div className="col-12 col-md-6">
               <Link href="/profile" className="text-decoration-none">

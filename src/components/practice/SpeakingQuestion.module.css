@@ -1,0 +1,11 @@
+.recordingControls {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+  
+  .audioPlayer {
+    width: 100%;
+    margin-top: 1rem;
+  }

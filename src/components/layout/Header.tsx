@@ -37,24 +37,9 @@ export default function Header() {
             <Link href="/vocabulary" className={`nav-link ${pathname === '/vocabulary' ? 'active' : ''}`}>
               Từ vựng
             </Link>
-            <NavDropdown title="Luyện tập" id="basic-nav-dropdown">
-              <NavDropdown.Item as={Link} href="/practice/listening">
-                Nghe
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} href="/practice/speaking">
-                Nói
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} href="/practice/reading">
-                Đọc
-              </NavDropdown.Item>
-              <NavDropdown.Item as={Link} href="/practice/writing">
-                Viết
-              </NavDropdown.Item>
-              <NavDropdown.Divider />
-              <NavDropdown.Item as={Link} href="/practice/test">
-                Kiểm tra
-              </NavDropdown.Item>
-            </NavDropdown>
+            <Link href="/practice" className={`nav-link ${pathname === '/practice' ? 'active' : ''}`}>
+              Luyện tập
+            </Link>
             <Link href="/about" className={`nav-link ${pathname === '/about' ? 'active' : ''}`}>
               Giới thiệu
             </Link>

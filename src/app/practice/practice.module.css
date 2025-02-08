@@ -1,0 +1,18 @@
+    /* app/practice/Practice.module.css */
+.practiceLink {
+    text-decoration: none;
+  }
+  
+  .practiceCard {
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  
+  .practiceCard:hover {
+    transform: translateY(-5px);
+  }
+  
+  .practiceIcon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
