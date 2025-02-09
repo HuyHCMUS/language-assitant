@@ -1,8 +1,9 @@
 // components/chat/ChatWindow.tsx
-import { forwardRef } from 'react';
+//import { forwardRef } from 'react';
 import { Message } from '@/types/chat';
 import ChatMessage from './ChatMessage';
 import styles from './ChatWindow.module.css';
+
 
 interface ChatWindowProps {
   messages: Message[];

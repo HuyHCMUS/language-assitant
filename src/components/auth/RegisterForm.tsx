@@ -12,10 +12,11 @@ interface RegisterFormProps {
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ 
-  onSubmit, 
+  //onSubmit, 
   onSocialRegister, 
   isLoading = false 
 }) => {
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -33,12 +34,14 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       return;
     }
 
-    try {
-      const { confirmPassword, ...submitData } = formData;
-      await onSubmit(submitData);
-    } catch (err) {
-      setError('Có lỗi xảy ra khi đăng ký');
-    }
+    //try {
+      //const { confirmPassword, ...submitData } = formData;
+      //await onSubmit(submitData);
+    //} catch (err) {
+      //setError('Có lỗi xảy ra khi đăng ký');
+    //}
+
+
   };
 
   return (

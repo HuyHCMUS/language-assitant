@@ -10,12 +10,12 @@ export default function LoginPage() {
   const router = useRouter();
   const { login } = useAuth();
 
-  const handleSubmit = (email: string, password: string) => {
+  const handleSubmit = () =>{//email: string, password: string) => {
     login();
     router.push('/profile');
   };
 
-  const handleSocialLogin = (provider: string) => {
+  const handleSocialLogin = () => {//(provider: string) => {
     login();
     router.push('/profile');
   };

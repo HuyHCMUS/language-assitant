@@ -4,7 +4,8 @@ import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileCard from '@/components/profile/ProfileCard';
 import ActivityLog from '@/components/profile/ActivityLog';
-import { useAuth } from '@/contexts/AuthContext';
+//import { useAuth } from '@/contexts/AuthContext';
+
 
 type Activity = {
   id: number;
@@ -14,7 +15,7 @@ type Activity = {
 };
 
 export default function ProfilePage() {
-  const { isLoggedIn } = useAuth();
+  //const { isLoggedIn } = useAuth();
 
   // Mock data - sau này sẽ lấy từ API
   const userProfile = {

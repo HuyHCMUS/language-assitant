@@ -26,7 +26,7 @@ export default function ChatInput({ onSendMessage }: ChatInputProps) {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       mediaRecorderRef.current = new MediaRecorder(stream);
       
-      mediaRecorderRef.current.ondataavailable = async (event) => {
+      mediaRecorderRef.current.ondataavailable = async ()=>{//event) => {
         // Here you would typically send the audio to a speech-to-text service
         // For now, we'll just simulate it
         setMessage('This is a simulated voice message');

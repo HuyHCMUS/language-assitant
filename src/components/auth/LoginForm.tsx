@@ -12,10 +12,11 @@ interface LoginFormProps {
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ 
-  onSubmit, 
+  //onSubmit, 
   onSocialLogin, 
   isLoading = false 
 }) => {
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
@@ -24,11 +25,12 @@ const LoginForm: React.FC<LoginFormProps> = ({
     e.preventDefault()
     setError('')
 
-    try {
-      await onSubmit(email, password)
-    } catch (err) {
-      setError('Email hoặc mật khẩu không đúng')
-    }
+    //try {
+      //await onSubmit(email, password)
+    //} catch (err) {
+      //setError('Email hoặc mật khẩu không đúng')
+    //}
+
   }
 
   return (

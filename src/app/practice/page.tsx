@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Headphones, Mic, Book, Pencil, Shuffle, FileText } from 'react-bootstrap-icons';
 import styles from './practice.module.css';
 
-const practiceTypes: { type: PracticeType; title: string; icon: JSX.Element }[] = [
+const practiceTypes: { type: PracticeType; title: string; icon: React.ReactNode }[] = [
   { type: 'listening', title: 'Listening Practice', icon: <Headphones size={40} /> },
   { type: 'speaking', title: 'Speaking Practice', icon: <Mic size={40} /> },
   { type: 'reading', title: 'Reading Practice', icon: <Book size={40} /> },

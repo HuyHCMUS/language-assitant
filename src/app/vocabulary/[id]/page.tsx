@@ -246,17 +246,19 @@ export default function VocabularyListDetail() {
                   <Form.Control
                     type="file"
                     accept="image/*"
-                    onChange={(e) => {
+                    //onChange={(e) => {
                       // Handle image upload logic here
                      // const file = e.target.files?.[0];
                       //if (file) {
+
                       //  // You would typically upload this to your server/storage
                       //  console.log('Image file:', file);
                       //}
 
-                    }}
+                    //}}
                   />
                 </Form.Group>
+
               </Col>
               <Col md={4}>
                 <Form.Group className="mb-3">
@@ -264,16 +266,17 @@ export default function VocabularyListDetail() {
                   <Form.Control
                     type="file"
                     accept="audio/*"
-                    onChange={(e) => {
+                    //onChange={(e) => {
                       // Handle US audio upload logic here
                       //const file = e.target.files?.[0];
                       //if (file) {
                       //  console.log('US audio file:', file);
                       //}
 
-                    }}
+                    //}}
                   />
                 </Form.Group>
+
               </Col>
               <Col md={4}>
                 <Form.Group className="mb-3">
@@ -281,14 +284,15 @@ export default function VocabularyListDetail() {
                   <Form.Control
                     type="file"
                     accept="audio/*"
-                    onChange={(e) => {
+                    //onChange={(e) => {
                       // Handle UK audio upload logic here
                       //const file = e.target.files?.[0];
                       //if (file) {
                       //  console.log('UK audio file:', file);
                       //}
 
-                    }}
+
+                    //}}
                   />
                 </Form.Group>
               </Col>
@@ -313,10 +317,10 @@ export default function VocabularyListDetail() {
               <Col md={8}>
                 <div className="mb-3">
                   <h2>{item.word}</h2>
-                  <p className="text-muted font-italic">{item.ipa}</p>
+                  <p className="text-muted font-italic">&quot;{item.ipa}&quot;</p>
                 </div>
-                <p>{item.definition}</p>
-                <p className="text-muted font-italic">"{item.example}"</p>
+                <p>&quot;{item.definition}&quot;</p>
+                <p className="text-muted font-italic">&quot;{item.example}&quot;</p>
                 <Row className="align-items-center">
                   <Col>
                     {item.audioUrlUS && (

@@ -269,10 +269,11 @@ export default function VocabularyLists() {
               <Form.Control
                 type="file"
                 accept="image/*"
-                onChange={(e) => {
+                //onChange={(e) => {
                   // Handle image upload logic here
                   //console.log('Image upload:', e.target.files?.[0]);
-                }}
+                //}}
+
               />
             </Form.Group>
           </Modal.Body>

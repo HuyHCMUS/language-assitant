@@ -10,12 +10,12 @@ export default function RegisterPage() {
   const router = useRouter();
   const { login } = useAuth();
 
-  const handleSubmit = (data: { name: string, email: string, password: string }) => {
+  const handleSubmit = () => {//(data: { name: string, email: string, password: string }) => {
     login();
     router.push('/profile');
   };
 
-  const handleSocialRegister = (provider: string) => {
+  const handleSocialRegister = () => {//(provider: string) => {
     login();
     router.push('/profile');
   };
