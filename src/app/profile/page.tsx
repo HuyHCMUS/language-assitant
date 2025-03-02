@@ -30,11 +30,11 @@ export default function ProfilePage() {
 
   const [storedUser, setStoredUser] = useState<string | null>(null);
 
-  useEffect(() => {
-    // Chạy trên client
-    const user = localStorage.getItem("user");
-    setStoredUser(user);
-  }, []);
+useEffect(() => {
+  // Chạy trên client
+  const user = localStorage.getItem("user");
+  setStoredUser(user);
+}, []);
 
   const userProfile: User = storedUser ? JSON.parse(storedUser) : ({} as User);
   
