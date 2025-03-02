@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { useEffect} from "react";
+import { useEffect,useState } from "react";
 import { useRouter } from 'next/navigation';
 import { Container, Row, Col } from 'react-bootstrap';
 import ProfileCard from '@/components/profile/ProfileCard';
@@ -28,8 +28,14 @@ export default function ProfilePage() {
   }, [isLoggedIn, isLoading, router]);
 
 
-  // Mock data - sau này sẽ lấy từ API
-  const storedUser = localStorage.getItem('user');
+  const [storedUser, setStoredUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Chạy trên client
+    const user = localStorage.getItem("user");
+    setStoredUser(user);
+  }, []);
+
   const userProfile: User = storedUser ? JSON.parse(storedUser) : ({} as User);
   
   // const activities: Activity[] = [
