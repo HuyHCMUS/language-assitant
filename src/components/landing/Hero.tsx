@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-//import Link from 'next/link'
+import Link from 'next/link'
 import { Container, Row, Col, Button } from 'react-bootstrap'
 
 
@@ -17,31 +17,35 @@ const Hero: React.FC = () => {
           <Col lg={6} className="text-center text-lg-start mb-5 mb-lg-0">
             <div className="text-white">
               <span className="bg-white bg-opacity-25 text-white px-3 py-2 rounded-pill fw-semibold small">
-                ENGLISH ASSISTANT
+                LEARN ENGLISH APP
               </span>
               <h1 className="display-4 fw-bold mt-4 mb-3">
-                Trợ Lý Học Tiếng Anh Thông Minh
+                Ứng dụng học Tiếng Anh Thông Minh
               </h1>
               <p className="lead mb-4 opacity-90">
                 Cải thiện kỹ năng tiếng Anh của bạn với sự hỗ trợ của AI. 
                 Học mọi lúc, mọi nơi với phương pháp cá nhân hóa.
               </p>
               <div className="d-flex gap-3 justify-content-center justify-content-lg-start">
+                <Link href="/register">
                 <Button 
                   variant="light" 
                   size="lg" 
                   className="fw-semibold"
-                  href="/register"
+                  
                 >
                   Bắt đầu ngay
                 </Button>
+                </Link>
+                <Link href="/about">
                 <Button 
                   variant="outline-light" 
                   size="lg"
-                  href="/about"
+                  
                 >
                   Tìm hiểu thêm
                 </Button>
+                </Link>
               </div>
             </div>
           </Col>

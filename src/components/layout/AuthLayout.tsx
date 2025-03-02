@@ -19,7 +19,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
             <div className="text-center mb-4">
               <Link href="/" className="d-inline-flex align-items-center text-decoration-none">
                 <Image
-                  src="/logo.png"
+                  src="/logo.jpg"
                   alt="Logo"
                   width={40}
                   height={40}
@@ -37,14 +37,14 @@ const AuthLayout: React.FC<AuthLayoutProps> = ({ children }) => {
           <Col lg={7} className="d-none d-lg-block p-0">
             <div className="position-relative" style={{ height: '100vh' }}>
               <Image
-                src="/images/auth-background.jpg"
+                src="/bg.jpg"
                 alt="Authentication background"
                 fill
                 style={{ objectFit: 'cover' }}
                 priority
               />
               <div className="position-absolute top-50 start-50 translate-middle text-center text-white p-4" style={{
-                background: 'rgba(0, 0, 0, 0.5)',
+                background: 'rgba(0, 0, 0, 0.2)',
                 borderRadius: '1rem',
                 maxWidth: '80%'
               }}>

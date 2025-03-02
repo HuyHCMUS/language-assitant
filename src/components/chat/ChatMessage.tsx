@@ -33,9 +33,11 @@ export default function ChatMessage({ message }: ChatMessageProps) {
           </button>
         )}
       </div>
-      <div className={styles.timestamp}>
-        {message.timestamp.toLocaleTimeString()}
-      </div>
+      {/* <div className={styles.timestamp}>
+      {message.created_at
+      ? message.created_at.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : 'N/A'}
+      </div> */}
     </div>
   );
 }

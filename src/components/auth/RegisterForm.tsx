@@ -4,15 +4,16 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Form, Button } from 'react-bootstrap'
 import { FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa'
+import { RegisterData } from '@/types/auth' // Import interface RegisterData
 
 interface RegisterFormProps {
-  onSubmit: (data: { name: string, email: string, password: string }) => void;
+  onSubmit: (data: RegisterData) => void;  // Định dạng đúng với interface
   onSocialRegister: (provider: string) => void;
   isLoading?: boolean;
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = ({ 
-  //onSubmit, 
+  onSubmit, 
   onSocialRegister, 
   isLoading = false 
 }) => {
@@ -34,14 +35,12 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
       return;
     }
 
-    //try {
-      //const { confirmPassword, ...submitData } = formData;
-      //await onSubmit(submitData);
-    //} catch (err) {
-      //setError('Có lỗi xảy ra khi đăng ký');
-    //}
-
-
+    // Bỏ trường confirmPassword và gửi đúng định dạng RegisterData
+    
+    const { confirmPassword, ...submitData } = formData;
+    void confirmPassword; 
+    console.log(submitData)
+    onSubmit(submitData);
   };
 
   return (
@@ -140,4 +139,4 @@ const RegisterForm: React.FC<RegisterFormProps> = ({
   );
 };
 
-export default RegisterForm; 
+export default RegisterForm;

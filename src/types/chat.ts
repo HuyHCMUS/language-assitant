@@ -1,13 +1,27 @@
 // types/chat.ts
 export interface Message {
-    id: string;
+    id?: string;
     content: string;
     sender: 'user' | 'bot';
-    timestamp: Date;
+    audio?: string;
+    created_at?: Date;
     highlightedWords?: string[];
   }
   
-  export interface SuggestionResponse {
-    text: string;
-    context: string;
-  }
+export interface ErrorDetail {
+  error_segment: string;
+  error_type: string;
+  suggestion: string
+}
+export interface Error{
+  corrected_sentence: string;
+  vocabulary: string;
+  errors: ErrorDetail
+}
+export interface BotResponse {
+  messages: string[];
+  suggestions: string[];
+  error?:  Error |null;
+
+}
+

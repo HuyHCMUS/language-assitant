@@ -13,8 +13,8 @@ interface ChatWindowProps {
 const ChatWindow: React.FC<ChatWindowProps> = ({ messages, isBotTyping }) => {
   return (
     <div className={styles.chatWindow}>
-      {messages.map((message) => (
-        <ChatMessage key={message.id} message={message} />
+      {messages.map((message, index) => (
+        <ChatMessage key={index} message={message} />
       ))}
 
       {isBotTyping && (

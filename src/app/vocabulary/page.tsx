@@ -1,65 +1,102 @@
-// app/vocabulary-lists/page.tsx
 'use client'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Form, InputGroup, Badge, Modal } from 'react-bootstrap';
-import { Search, Plus, PencilSquare, Trash, BookHalf } from 'react-bootstrap-icons';
+import { Search, Plus, PencilSquare, Trash, BookHalf, Globe  , Person} from 'react-bootstrap-icons';
 import Link from 'next/link';
-import Image from 'next/image';
+// import Image from 'next/image';
 import { VocabularyList } from '@/types/vocabulary';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
-// Dữ liệu mẫu
+import { vocabularyService } from '../../lib/api_vocab';
+import { resizeAndConvertToBase64 } from '@/utils/upload';
 
-
-const sampleVocabularyLists: VocabularyList[] = [
-  {
-    id: 1,
-    title: "Business English Essential Words",
-    description: "Common vocabulary used in business meetings and correspondence",
-    createdAt: "2024-02-08",
-    updatedAt: "2024-02-08",
-    totalWords: 50,
-    category: "Business",
-    progress: 75,
-    image: "/english.jpg"
-  },
-  {
-    id: 2,
-    title: "IELTS Academic Writing",
-    description: "Key vocabulary for IELTS academic writing tasks Phần 1",
-    createdAt: "2024-02-07",
-    updatedAt: "2024-02-07",
-    totalWords: 100,
-    category: "Academic",
-    progress: 30,
-    image: "/ielts.jpg"
-  },
-  {
-    id: 3,
-    title: "IELTS Academicdfdf Writing",
-    description: "Key vocabulary for IELTS academic writing tasks. Phần 2",
-    createdAt: "2024-02-07",
-    updatedAt: "2024-02-07",
-    totalWords: 100,
-    category: "Acadvvemic",
-    progress: 30,
-    image: "/ielts.jpg"
-
-  },
-  // Thêm các list khác...
+const CATEGORIES = [
+  { value: '', label: 'Select a category' },
+  { value: 'Business', label: 'Business' },
+  { value: 'Academic', label: 'Academic' },
+  { value: 'General', label: 'General' },
+  { value: 'IELTS', label: 'IELTS' },
+  { value: 'TOEIC', label: 'TOEIC' },
+  { value: 'Other', label: 'Other' }
 ];
 
 export default function VocabularyLists() {
-  const [lists, setLists] = useState<VocabularyList[]>(sampleVocabularyLists);
+  // const [lists, setLists] = useState<VocabularyList[]>([]);
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedList, setSelectedList] = useState<VocabularyList | null>(null);
+  const [isListLoading, setIsLoading] = useState(false);
 
-  // Modal form state
-  const [formData, setFormData] = useState({
+  const [lists, setLists] = useState<VocabularyList[]>([]); // Dữ liệu danh sách từ vựng
+  const [dataUser, setDataUser] = useState<VocabularyList[]>([]); // Lưu data_user gốc
+  const [dataPublic, setDataPublic] = useState<VocabularyList[]>([]);// Lưu data_public gốc
+  const [isDiscovering, setIsDiscovering] = useState(false); // Trạng thái nút Discover
+
+  const router = useRouter();
+  const { isLoggedIn, isLoading } = useAuth();
+  
+
+  useEffect(() => {
+    if (!isLoading && !isLoggedIn) {
+      router.push("/login");
+    }
+  }, [isLoggedIn, isLoading, router]);
+
+    // Xử lý khi người dùng chọn file
+
+  // console.log(localStorage.getItem('refresh_token'))
+  // Load initial data
+  useEffect(() => {
+    loadVocabularyLists();
+  }, []);
+
+  const loadVocabularyLists = async () => {
+    try {
+      const data = await vocabularyService.getVocabList();
+      console.log(data);
+      setDataUser(data.vocab_list_user); // Lưu danh sách user
+      setDataPublic(data.vocab_list_public); // Lưu danh sách public
+      setLists(data.vocab_list_user); // Mặc định hiển thị danh sách user
+    } catch (error) {
+      console.error("Error loading vocabulary lists:", error);
+    }
+  };
+
+  const toggleList = () => {
+    if (isDiscovering) {
+      setLists(dataUser); // Chuyển về danh sách của user
+    } else {
+      setLists(dataPublic); // Chuyển sang danh sách public
+    }
+    setIsDiscovering(!isDiscovering); // Đảo trạng thái
+  };
+  interface VocabListFormData {
+    title: string;
+    description: string;
+    category: string;
+    image_base64?: string;
+
+  }
+  const initialFormData: VocabListFormData = {
     title: '',
     description: '',
-    category: ''
-  });
+    category: '',
+    image_base64: '',
+  };
+  // Modal form state
+  const [formData, setFormData] = useState<VocabListFormData>(initialFormData);
+  const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      try {
+        const base64String = await resizeAndConvertToBase64(file);
+        setFormData({ ...formData, image_base64: base64String });
+      } catch (error) {
+        console.error("Lỗi khi xử lý ảnh:", error);
+      }
+    }
+  };
 
   // Handlers
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,7 +106,7 @@ export default function VocabularyLists() {
 
   const handleAddNew = () => {
     setSelectedList(null);
-    setFormData({ title: '', description: '', category: '' });
+    setFormData(initialFormData);
     setShowModal(true);
   };
 
@@ -78,44 +115,65 @@ export default function VocabularyLists() {
     setFormData({
       title: list.title,
       description: list.description,
-      category: list.category
+      category: list.category,
+      // image: list.image ?? '',
     });
     setShowModal(true);
   };
 
-  const handleDelete = (id: number) => {
+  const handleDelete = async(id: number) => {
     if (confirm('Are you sure you want to delete this list?')) {
-      setLists(lists.filter(list => list.id !== id));
+      // Handle delete logic here
+      await vocabularyService.deleteVocabList(id);
+      await loadVocabularyLists();
     }
+
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (selectedList) {
-      // Update existing list
-      setLists(lists.map(list =>
-        list.id === selectedList.id
-          ? { ...list, ...formData }
-          : list
-      ));
-    } else {
-      // Add new list
-      const newList: VocabularyList = {
-        id: lists.length + 1,
-        ...formData,
-        createdAt: new Date().toISOString().split('T')[0],
-        updatedAt: new Date().toISOString().split('T')[0],
-        totalWords: 0,
-        progress: 0
-      };
-      setLists([...lists, newList]);
-    }
-    setShowModal(false);
-  };
+    setIsLoading(true);
 
+    try {
+      if (selectedList) {
+        // Handle update logic here
+        const updatedList ={
+          list_id: selectedList.list_id,
+          ...formData
+        }
+        console.log('data update:', updatedList);
+        await vocabularyService.editVocabList(updatedList);
+
+      } else {
+        console.log('data new:', formData);
+        await vocabularyService.createVocabList(formData);
+        console.log('createdList:', lists);
+      }
+
+      setShowModal(false);
+      // Refresh the list after adding
+      await loadVocabularyLists();
+    } catch (error) {
+      console.error('Error saving vocabulary list:', error);
+      // You might want to show an error message to the user here
+    } finally {
+      setIsLoading(false);
+    }
+  };
+    // Render loading state
+    if (isLoading) {
+      return <div>Loading...</div>;
+    }
+  
+    // Render null khi chưa login
+    if (!isLoggedIn) {
+      return null;
+    }
+
+  // Rest of the component remains the same...
   return (
     <Container className="py-4">
-      {/* Header */}
+      {/* Header section remains the same */}
       <Row className="mb-4">
         <Col>
           <h1 className="mb-4">Vocabulary Lists</h1>
@@ -134,6 +192,11 @@ export default function VocabularyLists() {
               </InputGroup>
             </Col>
             <Col md={8} className="text-end">
+              <Button variant="primary" className="me-2" onClick={toggleList}>
+                
+                {isDiscovering ? <Person className="me-2" /> : <Globe className="me-2" />}
+                {isDiscovering ? "My Lists" : "Public Lists"}
+              </Button>
               <Button variant="primary" onClick={handleAddNew}>
                 <Plus className="me-2" />
                 Create New List
@@ -146,27 +209,44 @@ export default function VocabularyLists() {
       {/* Lists Grid */}
       <Row xs={1} md={2} lg={3} className="g-4">
         {lists.map((list) => (
-          <Col key={list.id}>
-            <Card className="h-100">
-              {list.image && (
-                <div style={{ position: 'relative', height: '160px' }}>
-                  <Image
-                    src={list.image}
-                    alt={list.title}
-                    fill
-                    style={{ objectFit: 'cover' }}
-                  />
+          <Col key={`list-${list.list_id}`}>
+            <Card className="h-100 shadow-sm border-0">
+              {(
+                <div className="card-img-container" style={{ height: '180px', overflow: 'hidden'}}>
+                  <Card.Img
+                  variant="top"
+                  src={list.image || '/english.jpg'}
+                  alt={list.title}
+                  style={{ objectFit: 'cover', height: '100%', width: '100%' }}
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.onerror = null;
+                    target.src = '/english.jpg';
+                  }}
+                />
+                  
                 </div>
               )}
               <Card.Body>
                 <div className="d-flex justify-content-between align-items-start mb-2">
                   <Badge bg="primary">{list.category}</Badge>
                   <small className="text-muted">
-                    {list.totalWords} words
+                    {list.total_words} words
                   </small>
                 </div>
-                <Card.Title>{list.title}</Card.Title>
-                <Card.Text>{list.description}</Card.Text>
+                <Card.Title className="text-truncate">{list.title}</Card.Title>
+                <Card.Text 
+                className="text-muted small mb-3"
+                style={{
+                  minHeight: '60px', 
+                  maxHeight: '60px', 
+                  overflow: 'hidden', 
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3  ,  // Giới hạn 2 dòng
+                  WebkitBoxOrient: 'vertical'
+                }}>
+                {list.description}
+              </Card.Text>
                 {list.progress !== undefined && (
                   <div className="mb-3">
                     <div className="progress">
@@ -184,7 +264,7 @@ export default function VocabularyLists() {
                   </div>
                 )}
                 <div className="d-flex justify-content-between">
-                  <Link href={`/vocabulary/${list.id}`} passHref>
+                  <Link href={`/vocabulary/${list.list_id}`} passHref>
                     <Button variant="outline-primary">
                       <BookHalf className="me-2" />
                       View Words
@@ -200,7 +280,7 @@ export default function VocabularyLists() {
                     </Button>
                     <Button
                       variant="outline-danger"
-                      onClick={() => handleDelete(list.id)}
+                      onClick={() => handleDelete(list.list_id)}
                     >
                       <Trash />
                     </Button>
@@ -208,7 +288,7 @@ export default function VocabularyLists() {
                 </div>
               </Card.Body>
               <Card.Footer className="text-muted">
-                <small>Updated: {list.updatedAt}</small>
+                <small>Updated: {new Date(list.updated_at ?? "").toLocaleDateString()}</small>
               </Card.Footer>
             </Card>
           </Col>
@@ -254,13 +334,11 @@ export default function VocabularyLists() {
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 required
               >
-                <option value="">Select a category</option>
-                <option value="Business">Business</option>
-                <option value="Academic">Academic</option>
-                <option value="General">General</option>
-                <option value="IELTS">IELTS</option>
-                <option value="TOEIC">TOEIC</option>
-                <option value="Other">Other</option>
+                {CATEGORIES.map(category => (
+                  <option key={`category-${category.value}`} value={category.value}>
+                    {category.label}
+                  </option>
+                ))}
               </Form.Select>
             </Form.Group>
 
@@ -269,11 +347,7 @@ export default function VocabularyLists() {
               <Form.Control
                 type="file"
                 accept="image/*"
-                //onChange={(e) => {
-                  // Handle image upload logic here
-                  //console.log('Image upload:', e.target.files?.[0]);
-                //}}
-
+                onChange={handleImageChange}
               />
             </Form.Group>
           </Modal.Body>
@@ -281,8 +355,8 @@ export default function VocabularyLists() {
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Cancel
             </Button>
-            <Button variant="primary" type="submit">
-              {selectedList ? 'Save Changes' : 'Create List'}
+            <Button variant="primary" type="submit" disabled={isListLoading}>
+              {isListLoading ? 'Saving...' : (selectedList ? 'Save Changes' : 'Create List')}
             </Button>
           </Modal.Footer>
         </Form>

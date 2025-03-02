@@ -7,7 +7,7 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Button from 'react-bootstrap/Button';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { FaUserCircle, FaBell } from 'react-icons/fa';
+import { FaUserCircle } from 'react-icons/fa';
 import Image from 'next/image';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -48,12 +48,12 @@ export default function Header() {
           <Nav className="gap-2 align-items-center">
             {isLoggedIn ? (
               <>
-                <Nav.Link href="#" className="position-relative">
+                {/* <Nav.Link href="#" className="position-relative">
                   <FaBell className="fs-5" />
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                     3
                   </span>
-                </Nav.Link>
+                </Nav.Link> */}
                 
                 <NavDropdown 
                   title={
@@ -72,9 +72,9 @@ export default function Header() {
                   <NavDropdown.Item as={Link} href="/profile">
                     <FaUserCircle className="me-2" /> Hồ sơ
                   </NavDropdown.Item>
-                  <NavDropdown.Item as={Link} href="/settings">
+                  {/* <NavDropdown.Item as={Link} href="/settings">
                     Cài đặt
-                  </NavDropdown.Item>
+                  </NavDropdown.Item> */}
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={handleLogout}>
                     Đăng xuất

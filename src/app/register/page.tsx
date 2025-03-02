@@ -1,22 +1,53 @@
 'use client'
+import { useEffect } from 'react';
 
 import { Card } from 'react-bootstrap';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 import AuthLayout from '@/components/layout/AuthLayout';
 import RegisterForm from '@/components/auth/RegisterForm';
+import { registerUser } from '../../lib/api';
+
+
+import type { RegisterData } from '@/types/auth';
 
 export default function RegisterPage() {
   const router = useRouter();
   const { login } = useAuth();
+  const { isLoggedIn } = useAuth();
+  
+  useEffect(() => {
+    if (isLoggedIn) {
+      router.push("/profile");
+    }
+  }, [isLoggedIn]); 
+  
+  //const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = () => {//(data: { name: string, email: string, password: string }) => {
-    login();
-    router.push('/profile');
+  const handleSubmit = async (data: RegisterData) => {
+    try {
+      //setIsLoading(true);
+      const response = await registerUser(data);
+      
+      if (response.success && response.user) {
+        // Đăng nhập người dùng sau khi đăng ký thành công
+        login(response.user, response.access_token, response.refresh_token);
+        router.push('/profile'); // hoặc trang chính sau đăng ký
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(error.message);
+      }
+      throw new Error('Registration failed');
+    } finally {
+      //setIsLoading(false);
+    }
   };
 
   const handleSocialRegister = () => {//(provider: string) => {
-    login();
+    //login();
     router.push('/profile');
   };
 

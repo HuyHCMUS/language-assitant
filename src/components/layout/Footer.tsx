@@ -10,8 +10,7 @@ const Footer: React.FC = () => {
           <Col md={4} className="mb-4 mb-md-0">
             <h5 className={styles.title}>Về Chúng Tôi</h5>
             <p className={styles.description}>
-              Chúng tôi cung cấp các giải pháp công nghệ tốt nhất cho doanh nghiệp của bạn.
-              Với đội ngũ chuyên gia giàu kinh nghiệm, chúng tôi cam kết mang đến sự hài lòng cho khách hàng.
+            Hí ae! App học Eng siiuuu đỉnk kout, học 1 phát auto vjp pro! Từ vựng zô đầu như crush rep tin 💘, phản xạ mượt hơn nyc quay lại!  Học mà cứ tưởng đang đi pay, k thử là mất nửa cái tuổi zì thanh xuân ák!!!
             </p>
           </Col>
           

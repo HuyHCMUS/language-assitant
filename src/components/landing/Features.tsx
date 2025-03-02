@@ -2,6 +2,7 @@ import { Card } from 'react-bootstrap';
 import Link from 'next/link';
 import { BsChatDots, BsBook, BsAward, BsPerson } from 'react-icons/bs';
 
+
 const Features = () => {
   return (
     <div>
@@ -19,12 +20,12 @@ const Features = () => {
 
           <div className="row g-4">
             <div className="col-12 col-md-6">
-              <Link href="/chatbot" className="text-decoration-none">
+              <Link href="/chat" className="text-decoration-none">
                 <Card className="h-100 border-0 shadow-sm">
                   <Card.Body className="p-4">
                     <div className="text-primary opacity-50 mb-3 d-flex align-items-center">
                       <BsChatDots size={24} className="me-2" />
-                      <h5 className="mb-0 fw-bold">Chatbot</h5>
+                      <h5 className="mb-0 fw-bold">Chat AI</h5>
                     </div>
                     <Card.Text className="mb-0 text-secondary">
                       Trò chuyện tiếng Anh tự nhiên, sửa lỗi ngữ pháp và dịch thuật
@@ -90,9 +91,9 @@ const Features = () => {
         <div className="container">
           <div className="text-center mb-5">
             <span className="bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-pill fw-semibold small">
-              WHY US
+              LET`&apos;`S GO
             </span>
-            <h2 className="mt-3 mb-2 fw-bold display-6">Tại sao nên chọn chúng tôi?</h2>
+            <h2 className="mt-3 mb-2 fw-bold display-6">Bắt đầu học Tiếng Anh ngay thôi!</h2>
             <p className="text-muted mx-auto" style={{ maxWidth: '600px' }}>
               Khám phá những lý do khiến chúng tôi trở thành lựa chọn tốt nhất cho việc học tiếng Anh
             </p>

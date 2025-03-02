@@ -38,7 +38,7 @@ const ActivityLog: React.FC<ActivityLogProps> = ({ activities }) => {
   return (
     <Card className="border-0 shadow-sm">
       <Card.Body className="p-4">
-        <h4 className="fw-bold mb-4">Hoạt động gần đây</h4>
+        <h4 className="fw-bold mb-4">Hoạt động gần đây (Test thôi, chưa làm)</h4>
         <div className="d-flex flex-column gap-3">
           {activities.map((activity) => (
             <div key={activity.id} className="d-flex align-items-center gap-3">

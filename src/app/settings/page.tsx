@@ -1,11 +1,25 @@
 'use client'
 
 import React from 'react';
+import { useEffect } from 'react';
+
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import SettingsForm from '@/components/settings/SettingsForm';
 import NotificationSettings from '@/components/settings/NotificationSettings';
 
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+
 function SettingsPage() {
+  const router = useRouter();
+  const { isLoggedIn, isLoading } = useAuth(); // const [isChecking, setIsChecking] = useState(true);
+  useEffect(() => {
+    if (!isLoading && !isLoggedIn) {
+      router.push("/login");
+    }
+  }, [isLoggedIn, isLoading, router]);
+
+
   const initialSettings = {
     displayLanguage: 'vi' as const,
     chatMode: 'bilingual' as const,
@@ -34,6 +48,16 @@ function SettingsPage() {
       enabled: true
     }
   ];
+
+  // Render loading state
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  // Render null khi chưa login
+  if (!isLoggedIn) {
+    return null;
+  }
 
   return (
     <Container className="py-5">

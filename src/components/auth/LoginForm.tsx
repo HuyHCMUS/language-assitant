@@ -4,42 +4,33 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Form, Button } from 'react-bootstrap'
 import { FaGoogle, FaFacebook, FaGithub } from 'react-icons/fa'
+import { LoginData } from '@/types/auth' // Import interface RegisterData
+
 
 interface LoginFormProps {
-  onSubmit: (email: string, password: string) => void;
+  onSubmit: (data: LoginData) => void; 
   onSocialLogin: (provider: string) => void;
   isLoading?: boolean;
 }
 
 const LoginForm: React.FC<LoginFormProps> = ({ 
-  //onSubmit, 
+  onSubmit, 
   onSocialLogin, 
   isLoading = false 
 }) => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setError('')
-
-    //try {
-      //await onSubmit(email, password)
-    //} catch (err) {
-      //setError('Email hoặc mật khẩu không đúng')
-    //}
+    onSubmit({ email, password });
 
   }
 
   return (
     <Form onSubmit={handleSubmit}>
-      {error && (
-        <div className="alert alert-danger mb-3">
-          {error}
-        </div>
-      )}
+
 
       <Form.Group className="mb-3">
         <Form.Label>Email</Form.Label>

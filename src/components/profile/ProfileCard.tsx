@@ -3,19 +3,13 @@
 import React, { useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 import Image from 'next/image';
+import {User} from '../../types/auth';
+// import { Display } from 'react-bootstrap-icons';
 
-interface Profile {
-  name: string;
-  email: string;
-  phone: string;
-  birthDate: string;
-  bio: string;
-  avatar: string;
-}
 
 interface ProfileCardProps {
-  profile: Profile;
-  onUpdate: (data: Profile) => void;
+  profile: User;
+  onUpdate: (data: User) => void;
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onUpdate }) => {
@@ -58,43 +52,6 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onUpdate }) => {
               />
             </Form.Group>
 
-            <Form.Group className="mb-3">
-              <Form.Label>Email</Form.Label>
-              <Form.Control
-                type="email"
-                value={formData.email}
-                disabled
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Số điện thoại</Form.Label>
-              <Form.Control
-                type="tel"
-                value={formData.phone}
-                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label>Ngày sinh</Form.Label>
-              <Form.Control
-                type="date"
-                value={formData.birthDate}
-                onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-4">
-              <Form.Label>Giới thiệu</Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                value={formData.bio}
-                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
-              />
-            </Form.Group>
-
             <div className="d-flex gap-2">
               <Button type="submit" variant="primary" className="flex-grow-1">
                 Lưu thay đổi
@@ -106,26 +63,11 @@ const ProfileCard: React.FC<ProfileCardProps> = ({ profile, onUpdate }) => {
           </Form>
         ) : (
           <>
-            <div className="mb-4">
-              <h6 className="text-muted mb-2">Thông tin cá nhân</h6>
-              <div className="mb-2">
-                <small className="text-muted d-block">Email:</small>
-                <div>{profile.email}</div>
-              </div>
-              <div className="mb-2">
-                <small className="text-muted d-block">Số điện thoại:</small>
-                <div>{profile.phone}</div>
-              </div>
-              <div className="mb-2">
-                <small className="text-muted d-block">Ngày sinh:</small>
-                <div>{new Date(profile.birthDate).toLocaleDateString('vi-VN')}</div>
-              </div>
-              <div>
-                <small className="text-muted d-block">Giới thiệu:</small>
-                <div>{profile.bio}</div>
-              </div>
-            </div>
-            <Button variant="outline-primary" onClick={() => setIsEditing(true)}>
+            <Button 
+              variant="outline-primary" 
+              onClick={() => setIsEditing(true)}
+              style={{ display: "none" }}
+            >
               Chỉnh sửa thông tin
             </Button>
           </>
