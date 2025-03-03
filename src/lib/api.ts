@@ -1,7 +1,7 @@
 import type { RegisterData, AuthResponse, LoginData } from '@/types/auth';
 import type { APIResponse, RequestOptions } from '@/types/api';
 
-const API_BASE_URL = 'https://be-dnt4.onrender.com//api/v1';
+const API_BASE_URL = 'https://be-dnt4.onrender.com/api/v1';
 
 interface ErrorResponse {
   detail: string;
