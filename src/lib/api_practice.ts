@@ -8,8 +8,8 @@ export class PracticeService {
     this.api = new APIClient();
   }
 
-  getSampleQuestions(type: string): Promise<Question[]> {
-    return this.api.get<Question[]>(`/practice/${type}`);
+  getSampleQuestions(type: string, topic: string): Promise<Question[]> {
+    return this.api.get<Question[]>(`/practice/${type}?topic=${encodeURIComponent(topic)}`);
   }
 }
 export const practiceService = new PracticeService();

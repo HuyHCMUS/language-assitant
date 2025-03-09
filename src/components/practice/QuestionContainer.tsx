@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Container, Row, Col, Button, Form, Card, Alert, ProgressBar } from 'react-bootstrap';
+import { Container, Row, Col, Button, Form, Card, Alert, ProgressBar, Spinner } from 'react-bootstrap';
 import { Question, PracticeType } from '@/types/practice';
 import ReactMarkdown from "react-markdown";
 
@@ -7,9 +7,10 @@ import ReactMarkdown from "react-markdown";
 interface QuestionContainerProps {
   questions: Question[];
   practiceType: PracticeType;
+  onLoadMore: () => Promise<void>;
 }
 
-const QuestionContainer: React.FC<QuestionContainerProps> = ({ questions, practiceType }) => {
+const QuestionContainer: React.FC<QuestionContainerProps> = ({ questions, practiceType, onLoadMore }) => {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [showHint, setShowHint] = useState(false);
   const [userAnswer, setUserAnswer] = useState('');
@@ -27,6 +28,7 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({ questions, practi
   const [currentParentIndex, setCurrentParentIndex] = useState(0);
   const [currentChildIndex, setCurrentChildIndex] = useState(0);
   const [isReadingLayout, setIsReadingLayout] = useState(false);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   const organizeReadingQuestions = () => {
     // Find all parent questions (those with no parent_id)
@@ -85,7 +87,7 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({ questions, practi
     resetQuestionState();
   };
 
-  const handleNext = () => {
+  const handleNext = async () => {
     if (isReadingLayout) {
       if (currentChildIndex < childQuestions[currentParentIndex].length - 1) {
         // Move to next child of the same parent
@@ -96,9 +98,15 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({ questions, practi
         setCurrentChildIndex(0);
       }
     } else {
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
+      if (currentQuestionIndex === questions.length - 1) {
+        setIsLoadingMore(true); // Bắt đầu loading
+        try {
+          await onLoadMore(); // Gọi API để lấy thêm câu hỏi
+        } finally {
+          setIsLoadingMore(false); // Kết thúc loading
+        }
       }
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
     resetQuestionState();
   };
@@ -495,12 +503,23 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({ questions, practi
       
       <Card className="mb-4">
         <Card.Body>
-          {renderQuestionContent()}
-          <hr className="my-3" />
-          <div>
-            <h5 className="mb-3">Your Answer</h5>
-            {renderAnswerSection()}
-          </div>
+          {isLoadingMore && currentQuestionIndex === questions.length - 1 ? (
+            <div className="text-center py-5">
+              <Spinner animation="border" role="status">
+                <span className="visually-hidden">Loading next question...</span>
+              </Spinner>
+              <p className="mt-3">Loading next question...</p>
+            </div>
+          ) : (
+            <>
+              {renderQuestionContent()}
+              <hr className="my-3" />
+              <div>
+                <h5 className="mb-3">Your Answer</h5>
+                {renderAnswerSection()}
+              </div>
+            </>
+          )}
         </Card.Body>
       </Card>
       
@@ -524,9 +543,25 @@ const QuestionContainer: React.FC<QuestionContainerProps> = ({ questions, practi
         <Button 
           variant="outline-secondary" 
           onClick={handleNext}
-          disabled={currentQuestionIndex === questions.length - 1}
+          disabled={isLoadingMore} // Disable nút Next khi đang loading
         >
-          Next <i className="bi bi-arrow-right"></i>
+          {isLoadingMore ? (
+            <>
+              <Spinner
+                as="span"
+                animation="border"
+                size="sm"
+                role="status"
+                aria-hidden="true"
+                className="me-2"
+              />
+              Loading...
+            </>
+          ) : (
+            <>
+              Next <i className="bi bi-arrow-right"></i>
+            </>
+          )}
         </Button>
       </div>
       

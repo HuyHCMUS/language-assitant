@@ -2,7 +2,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import { Container, Alert, Spinner } from 'react-bootstrap';
 import QuestionContainer from '@/components/practice/QuestionContainer';
 import { practiceService } from '@/lib/api_practice';
@@ -13,39 +13,57 @@ import { useAuth } from '@/contexts/AuthContext';
 
 const PracticePage: React.FC = () => {
   const params = useParams();
+  const searchParams = useSearchParams();
   const practiceType = params.type as PracticeType;
+  const topic = searchParams.get('topic');
   
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
-    const { isLoggedIn, isLoading } = useAuth();
-  
-    useEffect(() => {
-      if (!isLoading && !isLoggedIn) {
-        router.push("/login");
-      }
-    }, [isLoggedIn, isLoading, router]);
+  const { isLoggedIn, isLoading } = useAuth();
 
+  const loadQuestions = async () => {
+    if (!practiceType || !topic) {
+      setError('Missing practice type or topic');
+      return;
+    }
+
+    try {
+      const data = await practiceService.getSampleQuestions(practiceType, topic);
+      return data;
+    } catch (error) {
+      console.error('Error loading questions:', error);
+      setError('Failed to load practice questions. Please try again later.');
+      return null;
+    }
+  };
+
+  // Load câu hỏi ban đầu
   useEffect(() => {
-    const loadQuestions = async () => {
-      try {
-        setLoading(true);
-        const data = await practiceService.getSampleQuestions(practiceType);
-        console.log('data:', data);
-        setQuestions(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error loading questions:', error);
-        setError('Failed to load practice questions. Please try again later.');
-        setLoading(false);
+    const initializeQuestions = async () => {
+      setLoading(true);
+      const initialData = await loadQuestions();
+      if (initialData) {
+        setQuestions(initialData);
       }
+      setLoading(false);
     };
 
-    if (practiceType) {
-      loadQuestions();
+    initializeQuestions();
+  }, [practiceType, topic]);
+
+  // Hàm xử lý load thêm câu hỏi
+  const handleLoadMore = async () => {
+    try {
+      const newData = await loadQuestions();
+      if (newData) {
+        setQuestions(prevQuestions => [...prevQuestions, ...newData]);
+      }
+    } catch (error) {
+      console.error('Error loading more questions:', error);
     }
-  }, [practiceType]);
+  };
 
   const getPracticeTitle = () => {
     switch (practiceType) {
@@ -105,9 +123,16 @@ const PracticePage: React.FC = () => {
   return (
     <Container className="my-4">
       <h1 className="mb-4">{getPracticeTitle()}</h1>
-      <QuestionContainer questions={questions} practiceType={practiceType} />
+      <QuestionContainer 
+        questions={questions} 
+        practiceType={practiceType} 
+        onLoadMore={handleLoadMore}
+      />
     </Container>
   );
 };
 
 export default PracticePage;
+
+
+
