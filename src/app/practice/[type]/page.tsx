@@ -8,7 +8,7 @@ import QuestionContainer from '@/components/practice/QuestionContainer';
 import { practiceService } from '@/lib/api_practice';
 import { Question, PracticeType } from '@/types/practice';
 
-import { useRouter } from 'next/navigation';
+// import { useRouter } from 'next/navigation';
 import { useAuth } from '@/contexts/AuthContext';
 
 const PracticePage: React.FC = () => {
@@ -20,7 +20,7 @@ const PracticePage: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
+  // const router = useRouter();
   const { isLoggedIn, isLoading } = useAuth();
 
   const loadQuestions = async () => {

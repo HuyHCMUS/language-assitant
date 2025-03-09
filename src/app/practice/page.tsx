@@ -1,7 +1,6 @@
 'use client'
 import { Container, Row, Col, Card } from 'react-bootstrap';
 import { PracticeType } from '@/types/practice';
-import Link from 'next/link';
 import { Headphones, Mic, Book, Pencil, FileText, Chat } from 'react-bootstrap-icons';
 import styles from './practice.module.css';
 
